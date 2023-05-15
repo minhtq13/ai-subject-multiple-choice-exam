@@ -408,7 +408,6 @@ def get_choose(ix):
 
 
 def get_info(img):
-
     left = 700
     top = 0
     right = 1056
@@ -431,16 +430,28 @@ def get_info(img):
     result_info["MDT"] = madethi
     return result_info
 
-
-if __name__ == '__main__':
-    image = cv2.imread('./Data/Test/f13.jpg',
-                       cv2.IMREAD_COLOR)[:, :, ::-1]
+def getAI(imgTest):
+    image = cv2.imread(imgTest, cv2.IMREAD_COLOR)[:, :, ::-1]
     document = extract(image_true=image, trained_model=trained_model)
     document = document / 255.0
     img = cv2.resize(document, (1056, 1500), interpolation=cv2.INTER_AREA)
     number_answer = 120
     result_answer = get_answer(img, number_answer)
     result_info = get_info(img)
-    print(result_answer)
-    print("Số báo danh: " + result_info["SBD"])
-    print("Mã đề thi: " + result_info["MDT"])
+    print(result_answer, result_info)
+    return result_answer, result_info
+
+
+if __name__ == '__main__':
+    # image = cv2.imread('./Data/Test/f13.jpg',
+    #                    cv2.IMREAD_COLOR)[:, :, ::-1]
+    # document = extract(image_true=image, trained_model=trained_model)
+    # document = document / 255.0
+    # img = cv2.resize(document, (1056, 1500), interpolation=cv2.INTER_AREA)
+    # number_answer = 120
+    # result_answer = get_answer(img, number_answer)
+    # result_info = get_info(img)
+    # print(result_answer)
+    # print("SBD " + result_info["SBD"])
+    # print("MDT " + result_info["MDT"])
+    result_answer, result_info = getAI('./Data/Test/f13.jpg')
