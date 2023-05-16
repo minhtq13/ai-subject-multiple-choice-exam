@@ -5,9 +5,13 @@ export default function Header() {
   let location = useLocation();
   const navs = [
     {
-      text: "Home",
+      text: "DAP AN",
       router: "/",
     },
+    {
+      text: "BAI THI",
+      router: "/submit",
+    }
   ];
   return (
     <div className="header">

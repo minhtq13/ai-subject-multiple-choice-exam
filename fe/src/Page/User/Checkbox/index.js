@@ -12,7 +12,7 @@ const formItemLayout = {
 };
 
 const onFinish = async (values) => {
-  postForm(values);
+  await postForm(values);
   console.log("Received values of form: ", values);
 };
 
@@ -45,10 +45,10 @@ export default function CheckBox() {
             label={`Cau ${index + 1}`}
           >
             <Radio.Group>
-              <Radio value="A">A</Radio>
-              <Radio value="B">B</Radio>
-              <Radio value="C">C</Radio>
-              <Radio value="D">D</Radio>
+              <Radio value="a">A</Radio>
+              <Radio value="b">B</Radio>
+              <Radio value="c">C</Radio>
+              <Radio value="d">D</Radio>
             </Radio.Group>
           </Form.Item>
         ))}

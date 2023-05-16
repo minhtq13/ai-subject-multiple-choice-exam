@@ -1,14 +1,16 @@
+import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from be import get, post
+from werkzeug.utils import secure_filename
+from datetime import datetime
 
 app = Flask(__name__)
 
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
-@app.route("/api", methods=['GET'])
+@app.route("/getAll", methods=['GET'])
 @cross_origin(origin='*')
 def getAllApi():
     rows = get.get_all("SELECT * FROM bailam")
@@ -142,9 +144,9 @@ def getAllApi():
         })
     return jsonify({"result": data})
 
-@app.route("/getApi", methods=['GET'])
+@app.route("/getById", methods=['GET'])
 @cross_origin(origin='*')
-def geApiById():
+def getById():
     id = request.args.get("id")
     rows = get.get_by_id(id)
     data = []
@@ -277,19 +279,180 @@ def geApiById():
         })
     return jsonify({"result": data})
 
+@app.route("/check", methods=['GET'])
+@cross_origin(origin='*')
+def getCheck():
+    mdt = request.args.get("MDT")
+    sbd = request.args.get("SBD")
+    rows = get.get_by_mdt(mdt, sbd)
+    data = []
+    for r in rows:
+        data.append({
+            "id": r[0],
+            "SBD": r[1],
+            "MDT": r[2],
+            "1": r[3],
+            "2": r[4],
+            "3": r[5],
+            "4": r[6],
+            "5": r[7],
+            "6": r[8],
+            "7": r[9],
+            "8": r[10],
+            "9": r[11],
+            "10": r[12],
+            "11": r[13],
+            "12": r[14],
+            "13": r[15],
+            "14": r[16],
+            "15": r[17],
+            "16": r[18],
+            "17": r[19],
+            "18": r[20],
+            "19": r[21],
+            "20": r[22],
+            "21": r[23],
+            "22": r[24],
+            "23": r[25],
+            "24": r[26],
+            "25": r[27],
+            "26": r[28],
+            "27": r[29],
+            "28": r[30],
+            "29": r[31],
+            "30": r[32],
+            "31": r[33],
+            "32": r[34],
+            "33": r[35],
+            "34": r[36],
+            "35": r[37],
+            "36": r[38],
+            "37": r[39],
+            "38": r[40],
+            "39": r[41],
+            "40": r[42],
+            "41": r[43],
+            "42": r[44],
+            "43": r[45],
+            "44": r[46],
+            "45": r[47],
+            "46": r[48],
+            "47": r[49],
+            "48": r[50],
+            "49": r[51],
+            "50": r[52],
+            "51": r[53],
+            "52": r[54],
+            "53": r[55],
+            "54": r[56],
+            "55": r[57],
+            "56": r[58],
+            "57": r[59],
+            "58": r[60],
+            "59": r[61],
+            "60": r[62],
+            "61": r[63],
+            "62": r[64],
+            "63": r[65],
+            "64": r[66],
+            "65": r[67],
+            "66": r[68],
+            "67": r[69],
+            "68": r[70],
+            "69": r[71],
+            "70": r[72],
+            "71": r[73],
+            "72": r[74],
+            "73": r[75],
+            "74": r[76],
+            "75": r[77],
+            "76": r[78],
+            "77": r[79],
+            "78": r[80],
+            "79": r[81],
+            "80": r[82],
+            "81": r[83],
+            "82": r[84],
+            "83": r[85],
+            "84": r[86],
+            "85": r[87],
+            "86": r[88],
+            "87": r[89],
+            "88": r[90],
+            "89": r[91],
+            "90": r[92],
+            "91": r[93],
+            "92": r[94],
+            "93": r[95],
+            "94": r[96],
+            "95": r[97],
+            "96": r[98],
+            "97": r[99],
+            "98": r[100],
+            "99": r[101],
+            "100": r[102],
+            "101": r[103],
+            "102": r[104],
+            "103": r[105],
+            "104": r[106],
+            "105": r[107],
+            "106": r[108],
+            "107": r[109],
+            "108": r[110],
+            "109": r[111],
+            "110": r[112],
+            "111": r[113],
+            "112": r[114],
+            "113": r[115],
+            "114": r[116],
+            "115": r[117],
+            "116": r[118],
+            "117": r[119],
+            "118": r[120],
+            "119": r[121],
+            "120": r[122],
+            "DIEM": r[123]
+        })
+    return jsonify({"result": data})
+
+
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/file-upload', methods=['POST'])
+@cross_origin(origin='*')
+def upload():
+    if 'file' not in request.files:
+        resp = jsonify({'message' : 'No file part in the request'})
+        resp.status_code = 400
+        return resp
+    file = request.files['file']
+    if file.filename == '':
+        resp = jsonify({'message' : 'No file selected for uploading'})
+        resp.status_code = 400
+        return resp
+    if file and allowed_file(file.filename):
+        now = datetime.now()
+        filename = secure_filename(file.filename)
+        print(now.strftime("%d_%m_%Y_%H_%M_%S") + filename)
+        file.save(os.path.join("./be/images", now.strftime("%d_%m_%Y_%H_%M_%S") + filename))
+        resp = jsonify({'message' : 'File successfully uploaded', "result": now.strftime("%d_%m_%Y_%H_%M_%S") + filename})
+        resp.status_code = 201
+        return resp
+    else:
+        resp = jsonify({'message' : 'Allowed file types are txt, pdf, png, jpg, jpeg, gif'})
+        resp.status_code = 400
+        return resp
+
 @app.route("/api", methods=['POST'])
 @cross_origin(origin='*')
 def postApi():
     img = request.args.get("img")
-    diem = request.args.get("diem")
     if(img):
-        rows = post.postKT(img, diem)
-        data = []
-        for r in rows:
-            data.append({
-                "id": r[0]
-            })
-        return jsonify({"result": data, "status": 1, "message": "Successful"})
+        post.postKT(img)
+        return jsonify({"status": 1, "message": "Successful"})
     return jsonify({"status": -1, "message": "Fail"})
 
 @app.route("/getApi", methods=['POST'])
@@ -540,13 +703,8 @@ def postGetApi():
     c120 = request.args.get("c120")
 
     if(SBD):
-        rows = post.postGet(SBD, MDT, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32, c33, c34, c35, c36, c37, c38, c39, c40, c41, c42, c43, c44, c45, c46, c47, c48, c49, c50, c51, c52, c53, c54, c55, c56, c57, c58, c59, c60, c61, c62, c63, c64, c65, c66, c67, c68, c69, c70, c71, c72, c73, c74, c75, c76, c77, c78, c79, c80, c81, c82, c83, c84, c85, c86, c87, c88, c89, c90, c91, c92, c93, c94, c95, c96, c97, c98, c99, c100, c101, c102, c103, c104, c105, c106, c107, c108, c109, c110, c111, c112, c113, c114, c115, c116, c117, c118, c119, c120)
-        data = []
-        for r in rows:
-            data.append({
-                "id": r[0]
-            })
-        return jsonify({"result": data, "status": 1, "message": "Successful"})
+        post.postGet(SBD, MDT, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32, c33, c34, c35, c36, c37, c38, c39, c40, c41, c42, c43, c44, c45, c46, c47, c48, c49, c50, c51, c52, c53, c54, c55, c56, c57, c58, c59, c60, c61, c62, c63, c64, c65, c66, c67, c68, c69, c70, c71, c72, c73, c74, c75, c76, c77, c78, c79, c80, c81, c82, c83, c84, c85, c86, c87, c88, c89, c90, c91, c92, c93, c94, c95, c96, c97, c98, c99, c100, c101, c102, c103, c104, c105, c106, c107, c108, c109, c110, c111, c112, c113, c114, c115, c116, c117, c118, c119, c120)
+        return jsonify({"status": 1, "message": "Successful"})
     return jsonify({"status": -1, "message": "Fail"})
 
 if __name__ == "__main__":

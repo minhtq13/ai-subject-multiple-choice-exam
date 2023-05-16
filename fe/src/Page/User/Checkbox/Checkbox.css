@@ -1,0 +1,16 @@
+.formInput {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+:where(.css-dev-only-do-not-override-15rg2km)[class^="ant-form"]
+  [class^="ant-form"],
+:where(.css-dev-only-do-not-override-15rg2km)[class*=" ant-form"]
+  [class^="ant-form"],
+:where(.css-dev-only-do-not-override-15rg2km)[class^="ant-form"]
+  [class*=" ant-form"],
+:where(.css-dev-only-do-not-override-15rg2km)[class*=" ant-form"]
+  [class*=" ant-form"] {
+  width: 300px;
+  display: flex;
+}

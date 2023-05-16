@@ -1,10 +1,10 @@
 import { Switch } from "antd";
 import CheckBox from "./Checkbox";
 import { useState } from "react";
-import "./Home.css";
+import "./User.css";
 import ImageUpload from "./ImageUpload";
 
-export default function Home() {
+export default function User() {
   const [choose, setChoose] = useState(false);
   const changeMode = () => {
     setChoose(!choose);
