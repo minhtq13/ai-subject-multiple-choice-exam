@@ -13,7 +13,6 @@ const formItemLayout = {
 
 const onFinish = async (values) => {
   postForm(values);
-  console.log("Received values of form: ", values);
 };
 
 export default function CheckBox() {

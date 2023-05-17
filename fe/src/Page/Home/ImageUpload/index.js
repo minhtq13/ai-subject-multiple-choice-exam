@@ -1,8 +1,12 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, InputNumber, Space, Upload } from "antd";
+import { Alert, Button, Form, Space, Upload } from "antd";
 import { postApi } from "../../../api";
+import { useState } from "react";
+import Loading from "../../../Layout/component/Loading";
 
 export default function ImageUpload() {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState();
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -13,7 +17,6 @@ export default function ImageUpload() {
   };
 
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -21,9 +24,12 @@ export default function ImageUpload() {
   };
 
   const onFinish = async (values) => {
-    console.log(values.upload[0].response.result);
-    postApi({ img: values.upload[0].response.result });
+    setLoading(true);
+    const res = await postApi({ img: values.upload[0].response.result });
+    setResult(res);
+    setLoading(false);
   };
+  console.log(result)
   return (
     <Form
       name="validate_other"
@@ -37,13 +43,8 @@ export default function ImageUpload() {
         flexDirection: "column",
         alignItems: "center",
       }}
+      autoComplete="off"
     >
-      <Form.Item label="MA DE THI">
-        <Form.Item name="MDT" noStyle>
-          <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
-        </Form.Item>
-      </Form.Item>
-
       <Form.Item
         name="upload"
         label="Upload"
@@ -54,13 +55,19 @@ export default function ImageUpload() {
         <Upload
           name="file"
           action="http://127.0.0.1:5000/file-upload"
-          // customRequest={customRequest()}
           listType="picture"
           maxCount={1}
         >
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
+      {result && (
+        <Alert
+          message={`Success upload image id: ${result.data?.result?.id}`}
+          type="success"
+          style={{ margin: "10px" }}
+        />
+      )}
 
       <Form.Item
         wrapperCol={{
@@ -69,8 +76,13 @@ export default function ImageUpload() {
         }}
       >
         <Space>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={loading}
+            style={{ width: "100px" }}
+          >
+            {!loading ? "Submit" : <Loading />}
           </Button>
           <Button htmlType="reset">reset</Button>
         </Space>

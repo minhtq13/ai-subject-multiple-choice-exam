@@ -11,7 +11,11 @@ export default function Header() {
     {
       text: "BAI THI",
       router: "/submit",
-    }
+    },
+    {
+      text: "XEM CHI TIET",
+      router: "/check",
+    },
   ];
   return (
     <div className="header">

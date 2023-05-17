@@ -1,28 +1,38 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, InputNumber, Space, Upload } from "antd";
-
-const formItemLayout = {
-  labelCol: {
-    span: 6,
-  },
-  wrapperCol: {
-    span: 14,
-  },
-};
-
-const normFile = (e) => {
-  console.log("Upload event:", e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
-
-const onFinish = async (values) => {
-  console.log("Received values of form: ", values);
-};
+import { Alert, Button, Form, InputNumber, Space, Upload } from "antd";
+import { postChamDiem } from "../../../api";
+import { useState } from "react";
+import Loading from "../../../Layout/component/Loading";
 
 export default function ImageUpload() {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState();
+  const formItemLayout = {
+    labelCol: {
+      span: 6,
+    },
+    wrapperCol: {
+      span: 14,
+    },
+  };
+
+  const normFile = (e) => {
+    setResult();
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    const res = await postChamDiem({
+      img: values.upload[0].response.result,
+      id: values.ID,
+    });
+    setResult(res);
+    setLoading(false);
+  };
   return (
     <Form
       name="validate_other"
@@ -37,13 +47,8 @@ export default function ImageUpload() {
         alignItems: "center",
       }}
     >
-      <Form.Item label="MA DE THI">
-        <Form.Item name="MDT" noStyle>
-          <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
-        </Form.Item>
-      </Form.Item>
-      <Form.Item label="MA DE THI">
-        <Form.Item name="MDT" noStyle>
+      <Form.Item label="ID">
+        <Form.Item name="ID" noStyle>
           <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
         </Form.Item>
       </Form.Item>
@@ -55,10 +60,22 @@ export default function ImageUpload() {
         getValueFromEvent={normFile}
         extra="Img"
       >
-        <Upload name="logo" action="/upload.do" listType="picture">
+        <Upload
+          name="file"
+          action="http://127.0.0.1:5000/file-upload"
+          listType="picture"
+          maxCount={1}
+        >
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
+      {result && (
+        <Alert
+          message={`Success diem: ${result.data?.kq}, id: ${result.data?.result?.id}`}
+          type="success"
+          style={{ margin: "10px" }}
+        />
+      )}
 
       <Form.Item
         wrapperCol={{
@@ -67,8 +84,13 @@ export default function ImageUpload() {
         }}
       >
         <Space>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={loading}
+            style={{ width: "100px" }}
+          >
+            {!loading ? "Submit" : <Loading />}
           </Button>
           <Button htmlType="reset">reset</Button>
         </Space>

@@ -14,3 +14,7 @@
   width: 300px;
   display: flex;
 }
+:where(.css-dev-only-do-not-override-15rg2km).ant-form-item-with-help {
+  display: flex;
+  flex-direction: column;
+}

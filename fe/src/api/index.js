@@ -19,9 +19,27 @@ export const getById = async (id) => {
   }
 };
 
+export const getCheckById = async (id) => {
+  try {
+    const res = await get(`${request.CHECK_BY_ID}`, { params: { id } });
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const postApi = async (params) => {
   try {
     const res = await post(`${request.API}`,{ params: { ...params } });
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const postChamDiem = async (params) => {
+  try {
+    const res = await post(`${request.POST_POINT}`,{ params: { ...params } });
     return res;
   } catch (err) {
     console.log(err);

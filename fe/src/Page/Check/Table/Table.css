@@ -1,0 +1,18 @@
+.true {
+  background-color: #f6ffed;
+  border: 1px solid #b7eb8f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
+.false {
+  background-color: #fff2f0;
+  border: 1px solid #ffccc7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
