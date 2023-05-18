@@ -24,6 +24,7 @@ export default function Check() {
   };
   return (
     <div>
+      <p style={{ margin: "20px", textAlign: "center" }}>XEM CHI TIET KET QUA CUA BAN</p>
       <Form
         name="validate_other"
         {...formItemLayout}
