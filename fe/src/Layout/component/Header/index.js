@@ -1,37 +1,50 @@
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
+import { Tabs } from "antd";
 
 export default function Header() {
   let location = useLocation();
-  const navs = [
+  const items = [
     {
-      text: "DAP AN",
-      router: "/",
+      key: "1",
+      label: (
+        <Link className="link" to="/">
+          DAP AN
+        </Link>
+      ),
     },
     {
-      text: "BAI THI",
-      router: "/submit",
+      key: "2",
+      label: (
+        <Link className="link" to="/submit">
+          BAI THI
+        </Link>
+      ),
     },
     {
-      text: "XEM CHI TIET",
-      router: "/check",
+      key: "3",
+      label: (
+        <Link className="link" to="/check">
+          XEM CHI TIET
+        </Link>
+      ),
     },
   ];
+  const activeKey = () => {
+    switch (location.pathname) {
+      case "/":
+        return "1";
+      case "/submit":
+        return "2";
+      case "/check":
+        return "3";
+      default:
+        return "1";
+    }
+  };
   return (
     <div className="header">
-      {navs.map((nav, index) => (
-        <Link
-          className={"nav"}
-          style={{
-            backgroundColor:
-              location.pathname === nav.router ? "#ccc" : "transparent",
-          }}
-          key={index}
-          to={nav.router}
-        >
-          {nav.text}
-        </Link>
-      ))}
+      <Tabs defaultActiveKey={activeKey()} type="card" items={items} />
     </div>
   );
 }
