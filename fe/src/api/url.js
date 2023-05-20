@@ -7,4 +7,7 @@ export const request = {
   GET_BY_ID: "/getById",
   API: "/api",
   GET_API: "/getApi",
+  POST_DA: "/postDA",
+  POST_DA_IMG: "/postDAimg",
+  GET_BY_MDT: "/getCheckByMDT",
 };

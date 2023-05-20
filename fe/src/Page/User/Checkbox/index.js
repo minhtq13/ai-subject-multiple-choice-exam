@@ -1,6 +1,8 @@
 import { Button, Form, InputNumber, Radio, Space } from "antd";
 import "./Checkbox.css";
 import { postForm } from "../../../api";
+import { useState } from "react";
+import Loading from "../../../Layout/component/Loading";
 
 const formItemLayout = {
   labelCol: {
@@ -11,28 +13,33 @@ const formItemLayout = {
   },
 };
 
-const onFinish = async (values) => {
-  await postForm(values);
-  console.log("Received values of form: ", values);
-};
-
-export default function CheckBox() {
+export default function CheckBox({ setResult }) {
+  const [loading, setLoading] = useState(false);
+  const onFinish = async (values) => {
+    setLoading(true);
+    const res = await postForm(values);
+    setResult(res?.data);
+    setLoading(false);
+  };
   return (
     <Form
       name="validate_other"
       {...formItemLayout}
       onFinish={onFinish}
-      initialValues={{
-        MDT: 0,
-      }}
+      initialValues={{}}
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      <Form.Item label="MA DE THI">
+      <Form.Item label="MDT">
         <Form.Item name="MDT" noStyle>
+          <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
+        </Form.Item>
+      </Form.Item>
+      <Form.Item label="SBD">
+        <Form.Item name="SBD" noStyle>
           <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
         </Form.Item>
       </Form.Item>
@@ -45,10 +52,10 @@ export default function CheckBox() {
             label={`Cau ${index + 1}`}
           >
             <Radio.Group>
-              <Radio value="a">A</Radio>
-              <Radio value="b">B</Radio>
-              <Radio value="c">C</Radio>
-              <Radio value="d">D</Radio>
+              <Radio value="A">A</Radio>
+              <Radio value="B">B</Radio>
+              <Radio value="C">C</Radio>
+              <Radio value="D">D</Radio>
             </Radio.Group>
           </Form.Item>
         ))}
@@ -61,8 +68,13 @@ export default function CheckBox() {
         }}
       >
         <Space>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={loading}
+            style={{ width: "100px" }}
+          >
+            {!loading ? "Submit" : <Loading />}
           </Button>
           <Button htmlType="reset">reset</Button>
         </Space>

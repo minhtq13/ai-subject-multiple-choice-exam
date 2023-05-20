@@ -1,12 +1,11 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Alert, Button, Form, Space, Upload } from "antd";
-import { postApi } from "../../../api";
+import { Button, Form, Space, Upload } from "antd";
+import { postDAimg } from "../../../api";
 import { useState } from "react";
 import Loading from "../../../Layout/component/Loading";
 
-export default function ImageUpload() {
+export default function ImageUpload({ setResult }) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState();
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -25,11 +24,10 @@ export default function ImageUpload() {
 
   const onFinish = async (values) => {
     setLoading(true);
-    const res = await postApi({ img: values.upload[0].response.result });
-    setResult(res);
+    const res = await postDAimg({ img: values.upload[0].response.result });
+    setResult(res?.data?.result);
     setLoading(false);
   };
-  console.log(result)
   return (
     <Form
       name="validate_other"
@@ -37,6 +35,9 @@ export default function ImageUpload() {
       onFinish={onFinish}
       initialValues={{
         "input-number": 0,
+      }}
+      onChange={() => {
+        setResult();
       }}
       style={{
         display: "flex",
@@ -61,13 +62,6 @@ export default function ImageUpload() {
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
-      {result && (
-        <Alert
-          message={`Success upload image id: ${result.data?.result?.id}`}
-          type="success"
-          style={{ margin: "10px" }}
-        />
-      )}
 
       <Form.Item
         wrapperCol={{

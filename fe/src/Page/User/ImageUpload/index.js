@@ -1,12 +1,11 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Alert, Button, Form, InputNumber, Space, Upload } from "antd";
+import { Button, Form, Space, Upload } from "antd";
 import { postChamDiem } from "../../../api";
 import { useState } from "react";
 import Loading from "../../../Layout/component/Loading";
 
-export default function ImageUpload() {
+export default function ImageUpload({ setResult }) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState();
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -28,9 +27,8 @@ export default function ImageUpload() {
     setLoading(true);
     const res = await postChamDiem({
       img: values.upload[0].response.result,
-      id: values.ID,
     });
-    setResult(res);
+    setResult(res?.data);
     setLoading(false);
   };
   return (
@@ -47,12 +45,6 @@ export default function ImageUpload() {
         alignItems: "center",
       }}
     >
-      <Form.Item label="ID">
-        <Form.Item name="ID" noStyle>
-          <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
-        </Form.Item>
-      </Form.Item>
-
       <Form.Item
         name="upload"
         label="Upload"
@@ -69,13 +61,6 @@ export default function ImageUpload() {
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
-      {result && (
-        <Alert
-          message={`Success diem: ${result.data?.kq}, id: ${result.data?.result?.id}`}
-          type="success"
-          style={{ margin: "10px" }}
-        />
-      )}
 
       <Form.Item
         wrapperCol={{

@@ -1,6 +1,8 @@
 import { Button, Form, InputNumber, Radio, Space } from "antd";
 import "./Checkbox.css";
-import { postForm } from "../../../api";
+import { postDA } from "../../../api";
+import { useState } from "react";
+import Loading from "../../../Layout/component/Loading";
 
 const formItemLayout = {
   labelCol: {
@@ -11,26 +13,28 @@ const formItemLayout = {
   },
 };
 
-const onFinish = async (values) => {
-  postForm(values);
-};
+export default function CheckBox({ setResult }) {
+  const [loading, setLoading] = useState(false);
 
-export default function CheckBox() {
+  const onFinish = async (values) => {
+    setLoading(true);
+    const res = await postDA(values);
+    setResult(res?.data?.result);
+    setLoading(false);
+  };
   return (
     <Form
       name="validate_other"
       {...formItemLayout}
       onFinish={onFinish}
-      initialValues={{
-        MDT: 0,
-      }}
+      initialValues={{}}
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      <Form.Item label="MA DE THI">
+      <Form.Item label="MDT">
         <Form.Item name="MDT" noStyle>
           <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
         </Form.Item>
@@ -60,8 +64,13 @@ export default function CheckBox() {
         }}
       >
         <Space>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={loading}
+            style={{ width: "100px" }}
+          >
+            {!loading ? "Submit" : <Loading />}
           </Button>
           <Button htmlType="reset">reset</Button>
         </Space>

@@ -1,7 +1,7 @@
 import { Button, Form, InputNumber, Space } from "antd";
 import { useState } from "react";
 import Loading from "../../Layout/component/Loading";
-import { getCheckById } from "../../api";
+import { getCheckByMDT } from "../../api";
 import TableCheck from "./Table";
 
 export default function Check() {
@@ -18,7 +18,7 @@ export default function Check() {
 
   const onFinish = async (values) => {
     setLoading(true);
-    const res = await getCheckById(values.ID);
+    const res = await getCheckByMDT(values);
     setResult(res);
     setLoading(false);
   };
@@ -38,9 +38,15 @@ export default function Check() {
           alignItems: "center",
         }}
       >
-        <Form.Item label="ID">
-          <Form.Item name="ID" noStyle>
+        <Form.Item label="SBD">
+          <Form.Item name="SBD" noStyle>
             <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
+          </Form.Item>
+        </Form.Item>
+
+        <Form.Item label="MDT">
+          <Form.Item name="MDT" noStyle>
+            <InputNumber style={{ margin: "0px 10px" }} min={0} max={9999999999} />
           </Form.Item>
         </Form.Item>
 
@@ -65,7 +71,6 @@ export default function Check() {
       </Form>
       {result && (
         <div>
-          <div>So cau dung: {result.diem.length}</div>
           <TableCheck data={result} />
         </div>
       )}

@@ -1,31 +1,26 @@
 import { Table } from "antd";
 import "./Table.css";
 
-export default function TableCheck({ data }) {
+export default function TableBL({ data }) {
   const cau = () => {
     const array = [];
+    let j = 0;
+    let check = false;
     for (let i = 1; i < 121; i++) {
+      if (data?.kq.length !== 0) {
+        check = data?.kq[j] === i;
+      }
       array.push({
         title: i.toString(),
         dataIndex: i.toString(),
         key: i.toString(),
         width: 50,
-        render: (text, _, index) => (
-          <div
-            className={
-              index > 0
-                ? data.diem[index - 1][i - 1]
-                  ? "true"
-                  : "false"
-                : "warning"
-            }
-          >
-            {text}
-          </div>
+        render: (value) => (
+          <div className={check === true ? "true" : "false"}>{value}</div>
         ),
       });
+      if (check === true) j++;
     }
-
     return array;
   };
   const columns = [
@@ -55,11 +50,10 @@ export default function TableCheck({ data }) {
       fixed: "right",
     },
   ];
-  const dataSource = [...data.da, ...data.bl];
   return (
     <Table
       columns={columns}
-      dataSource={dataSource}
+      dataSource={[data?.result]}
       bordered
       size="middle"
       scroll={{
