@@ -443,15 +443,5 @@ def getAI(imgTest):
 
 
 if __name__ == '__main__':
-    # image = cv2.imread('./Data/Test/f13.jpg',
-    #                    cv2.IMREAD_COLOR)[:, :, ::-1]
-    # document = extract(image_true=image, trained_model=trained_model)
-    # document = document / 255.0
-    # img = cv2.resize(document, (1056, 1500), interpolation=cv2.INTER_AREA)
-    # number_answer = 120
-    # result_answer = get_answer(img, number_answer)
-    # result_info = get_info(img)
-    # print(result_answer)
-    # print("SBD " + result_info["SBD"])
-    # print("MDT " + result_info["MDT"])
+
     result_answer, result_info = getAI('./Data/Test/f13.jpg')

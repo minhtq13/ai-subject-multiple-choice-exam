@@ -9,7 +9,7 @@ export default function Header() {
       key: "1",
       label: (
         <Link className="link" to="/">
-          DAP AN
+          Đáp Án
         </Link>
       ),
     },
@@ -17,7 +17,7 @@ export default function Header() {
       key: "2",
       label: (
         <Link className="link" to="/submit">
-          BAI THI
+          Bài Thi
         </Link>
       ),
     },
@@ -25,7 +25,7 @@ export default function Header() {
       key: "3",
       label: (
         <Link className="link" to="/check">
-          XEM CHI TIET
+          Xem Chi Tiết
         </Link>
       ),
     },
