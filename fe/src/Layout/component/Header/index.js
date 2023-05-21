@@ -22,7 +22,7 @@ export default function Header() {
       ),
     },
     {
-      key: "3",
+      key: "3", 
       label: (
         <Link className="link" to="/check">
           Xem Chi Tiết
