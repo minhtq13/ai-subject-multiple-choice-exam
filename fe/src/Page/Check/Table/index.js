@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Image, Table } from "antd";
 import "./Table.css";
 
 export default function TableCheck({ data }) {
@@ -44,7 +44,7 @@ export default function TableCheck({ data }) {
       fixed: "left",
     },
     {
-      title: "CAU",
+      title: "Câu",
       children: cau(),
     },
     {
@@ -54,18 +54,29 @@ export default function TableCheck({ data }) {
       width: 200,
       fixed: "right",
     },
+    {
+      title: "Ảnh",
+      dataIndex: "img",
+      key: "img",
+      width: 200,
+      fixed: "right",
+      render: (text) =>
+        text && <Image width={200} src={require(`../../../images/${text}`)} />,
+    },
   ];
   const dataSource = [...data.da, ...data.bl];
   return (
-    <Table
-      columns={columns}
-      dataSource={dataSource}
-      bordered
-      size="middle"
-      scroll={{
-        x: "calc(700px + 50%)",
-        y: 240,
-      }}
-    />
+    <div>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        bordered
+        size="middle"
+        scroll={{
+          x: "calc(700px + 50%)",
+          y: 2000,
+        }}
+      />
+    </div>
   );
 }

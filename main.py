@@ -337,7 +337,7 @@ def upload():
         now = datetime.now()
         filename = secure_filename(file.filename)
         print(now.strftime("%d_%m_%Y_%H_%M_%S") + filename)
-        file.save(os.path.join("./be/images", now.strftime("%d_%m_%Y_%H_%M_%S_") + filename))
+        file.save(os.path.join("./fe/src/images", now.strftime("%d_%m_%Y_%H_%M_%S_") + filename))
         resp = jsonify({'message' : 'File successfully uploaded', "result": now.strftime("%d_%m_%Y_%H_%M_%S_") + filename})
         resp.status_code = 201
         return resp

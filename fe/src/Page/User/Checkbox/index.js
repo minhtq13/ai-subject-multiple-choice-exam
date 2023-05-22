@@ -49,7 +49,7 @@ export default function CheckBox({ setResult }) {
           <Form.Item
             key={index}
             name={`c${index + 1}`}
-            label={`Cau ${index + 1}`}
+            label={`Câu ${index + 1}`}
           >
             <Radio.Group>
               <Radio value="A">A</Radio>
