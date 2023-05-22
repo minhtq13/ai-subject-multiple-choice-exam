@@ -30,7 +30,7 @@ export default function TableCheck({ data }) {
   };
   const columns = [
     {
-      title: "MDT",
+      title: "MĐT",
       dataIndex: "MDT",
       key: "MDT",
       width: 100,
@@ -48,7 +48,7 @@ export default function TableCheck({ data }) {
       children: cau(),
     },
     {
-      title: "DIEM",
+      title: "Điểm",
       dataIndex: "DIEM",
       key: "DIEM",
       width: 200,
