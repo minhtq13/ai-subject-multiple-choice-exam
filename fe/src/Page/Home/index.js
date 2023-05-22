@@ -14,8 +14,8 @@ export default function Home() {
   };
   return (
     <div className="wrapper">
-      <div className="switch">
-        Change Mode: <Switch onChange={changeMode} />
+      <div className="switch" style={{ color: "#1677ff" }}>
+        Chuyển kiểu nhập dữ liệu: <Switch onChange={changeMode} />
       </div>
       {!choose ? (
         <CheckBox setResult={setResult} />

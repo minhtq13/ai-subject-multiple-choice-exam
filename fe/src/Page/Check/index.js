@@ -24,7 +24,7 @@ export default function Check() {
   };
   return (
     <div>
-      <p style={{ margin: "20px", textAlign: "center" }}>XEM CHI TIET KET QUA CUA BAN</p>
+      <p style={{ margin: "20px", textAlign: "center" }}>Xem chi tiết kết quả</p>
       <Form
         name="validate_other"
         {...formItemLayout}
@@ -40,7 +40,7 @@ export default function Check() {
       >
         <Form.Item label="SBD">
           <Form.Item name="SBD" noStyle>
-            <InputNumber style={{ margin: "0px 10px" }} min={0} max={999} />
+            <InputNumber style={{ margin: "0px 10px" }} min={0} max={9999999999} />
           </Form.Item>
         </Form.Item>
 

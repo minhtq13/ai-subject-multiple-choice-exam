@@ -4,22 +4,18 @@ import "./Table.css";
 export default function TableBL({ data }) {
   const cau = () => {
     const array = [];
-    let j = 0;
-    let check = false;
     for (let i = 1; i < 121; i++) {
-      if (data?.kq.length !== 0) {
-        check = data?.kq[j] === i;
-      }
       array.push({
         title: i.toString(),
         dataIndex: i.toString(),
         key: i.toString(),
         width: 50,
         render: (value) => (
-          <div className={check === true ? "true" : "false"}>{value}</div>
+          <div className={data.kq[i - 1] === true ? "true" : "false"}>
+            {value}
+          </div>
         ),
       });
-      if (check === true) j++;
     }
     return array;
   };
